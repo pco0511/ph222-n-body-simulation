@@ -1,0 +1,13 @@
+- Introduction
+
+-  many-body system
+  
+  no general closed form of solution
+
+- Chaos
+
+
+- Simulation Methods of Chaotic system
+
+
+- 

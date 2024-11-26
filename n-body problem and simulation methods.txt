@@ -1,0 +1,27 @@
+n-body problem and simulation methods.
+
+INTRODUCTION: several usages of n-body problem
+- molecular dynamics
+- launching space probe
+- calculating the orbit of asteroids
+- simulating solar system
+
+n-Body problem
+- n-body celestial mechanics
+- poincare's proof of unsolvability
+- power series solution
+
+Numerical Methods for n-Body Problem
+(method) 
+- approach with Euler's method
+- symplectic methods
+(optimization)
+- few body symulation
+- many bodies
+- particle mesh
+(another)
+- softening
+
+Summary
+
+
