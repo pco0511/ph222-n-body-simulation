@@ -37,12 +37,12 @@ integrator = ForestRuth(
     q0,
     p0,
     4,
-    0.001
+    0.0001
 )
 integrator._velocity = velocity
 integrator._force = force
 
-n_steps = 80000
+n_steps = 400000
 
 
 t = np.empty((n_steps, ))
