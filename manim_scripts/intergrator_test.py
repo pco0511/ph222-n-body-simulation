@@ -1,34 +1,48 @@
+import tqdm
+import time
+
+import jax
+import jax.numpy as jnp
 import numpy as np
 from hamiltonian import Eular, RK45, ForestRuth
 import matplotlib.pyplot as plt
-import tqdm
-import time
 
 # example of coupled oscillator
 
 N = 4
-m = np.array([1, 1, 1, 1])
-k = np.array([2, 1, 1, 1, 2])
+# m = np.array([1, 1, 1, 1])
+# k = np.array([2, 1, 1, 1, 2])
 
+# def kinetic(p):
+#     return np.sum(p**2 / (2 * m))
+
+# def velocity(p):
+#     return p / m
+
+# def potential(q):
+#     return (1/2) * k[0] * q[0] ** 2 + np.sum((1/2) * k[1:N] * (q[:-1] - q[1:]) ** 2) + (1/2) * k[N] * q[N-1] ** 2
+
+# def force(q):
+#     return np.array([
+#         -k[0] * q[0] - k[1] * (q[0] - q[1]),
+#         k[1] * (q[0] - q[1]) - k[2] * (q[1] - q[2]),
+#         k[2] * (q[1] - q[2]) - k[3] * (q[2] - q[3]),
+#         k[3] * (q[2] - q[3]) - k[4] * q[3]
+#     ])
+
+m = jnp.array([1, 1, 1, 1])
+k = jnp.array([2, 1, 1, 1, 2])
 def kinetic(p):
-    return np.sum(p**2 / (2 * m))
-
-def velocity(p):
-    return p / m
+    return jnp.sum(p ** 2 / 2 * m)
 
 def potential(q):
-    return (1/2) * k[0] * q[0] ** 2 + np.sum((1/2) * k[1:N] * (q[:-1] - q[1:]) ** 2) + (1/2) * k[N] * q[N-1] ** 2
+    interaction = np.sum((1/2) * k[1:N] * (q[:-1] - q[1:]) ** 2)
+    boundary = (1/2) * k[0] * q[0] ** 2 + (1/2) * k[N] * q[N-1] ** 2
+    return interaction + boundary
 
-def force(q):
-    return np.array([
-        -k[0] * q[0] - k[1] * (q[0] - q[1]),
-        k[1] * (q[0] - q[1]) - k[2] * (q[1] - q[2]),
-        k[2] * (q[1] - q[2]) - k[3] * (q[2] - q[3]),
-        k[3] * (q[2] - q[3]) - k[4] * q[3]
-    ])
+q0 = jnp.array([0.1, 0.2, 0, -0.2])
+p0 = jnp.array([0.05, 0.07, -0.01, -0.03])
 
-q0 = np.array([0.1, 0.2, 0, -0.2])
-p0 = np.array([0.05, 0.07, -0.01, -0.03])
 
 integrator = ForestRuth(
     kinetic,
@@ -39,8 +53,8 @@ integrator = ForestRuth(
     4,
     0.0001
 )
-integrator._velocity = velocity
-integrator._force = force
+# integrator._velocity = velocity
+# integrator._force = force
 
 n_steps = 400000
 
